@@ -3,23 +3,18 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { User } from './users/model/user.model';
 
 @Module({
   imports: [
-    SequelizeModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configservice: ConfigService) => {
-        return {
-          dialect: 'postgres',
-          host: configservice.get('DATABASE_HOST'),
-          port: 5432,
-          username: configservice.get('DATABASE_USERNAME'),
-          password: configservice.get('DATABASE_PASSWORD'),
-          database: configservice.get('DATABASE'),
-          models: [],
-        };
-      },
+    SequelizeModule.forRoot({
+      dialect: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: 'password',
+      database: 'postgres',
+      autoLoadModels: true,
     }),
     LoggerModule.forRootAsync({
       imports: [ConfigModule],
