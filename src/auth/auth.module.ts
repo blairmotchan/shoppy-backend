@@ -5,10 +5,11 @@ import { UsersModule } from 'src/users/users.module';
 import { LocalStrategy } from './stragegies/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService, ConfigModule } from '@nestjs/config';
+import { JwtStrategy } from './stragegies/jwt.strategy';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
   imports: [
     UsersModule,
     ConfigModule,
