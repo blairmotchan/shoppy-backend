@@ -14,4 +14,8 @@ export class ProductsService {
       console.log(err);
     }
   }
+
+  async getProducts() {
+    return await this.productModel.findAll<Product>();
+  }
 }
