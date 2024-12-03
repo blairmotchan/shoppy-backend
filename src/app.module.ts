@@ -5,6 +5,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './users/model/user.model';
 import { AuthModule } from './auth/auth.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot(),
     UsersModule,
     AuthModule,
+    ProductsModule,
   ],
   controllers: [],
   providers: [],
