@@ -6,9 +6,14 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './users/model/user.model';
 import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+    }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: 'localhost',

@@ -2,6 +2,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { CreateProductRequest } from './dto/create-product.request';
 import { Product } from './model/product.model';
 import { Injectable } from '@nestjs/common';
+import { promises as fs } from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class ProductsService {
@@ -16,6 +18,28 @@ export class ProductsService {
   }
 
   async getProducts() {
-    return await this.productModel.findAll<Product>();
+    const products = await this.productModel.findAll<Product>();
+
+    return Promise.all(
+      products.map(async (product) => ({
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        imageExists: await this.imageExists(product.id),
+      })),
+    );
+  }
+
+  private async imageExists(productId: number) {
+    try {
+      await fs.access(
+        join(__dirname, '../../', `public/products/${productId}.jpeg`),
+        fs.constants.F_OK,
+      );
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
 }
