@@ -21,14 +21,18 @@ export class ProductsService {
     const products = await this.productModel.findAll<Product>();
 
     return Promise.all(
-      products.map(async (product) => ({
-        id: product.id,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        imageExists: await this.imageExists(product.id),
-      })),
+      products.map(async (product) => this.convertProductPromise(product)),
     );
+  }
+
+  private async convertProductPromise(product: Product) {
+    return {
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      imageExists: await this.imageExists(product.id),
+    };
   }
 
   private async imageExists(productId: number) {
